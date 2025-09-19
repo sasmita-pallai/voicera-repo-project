@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primaryA: #000000;
+  --color-primaryB: #ffffff;
+  --color-primaryC: #b70849;
+  --color-accent: #662dff;
+  --color-linkColor: #D3D3FF;
+  --color-negative: #FD1414;
+  --color-warning: #FFC700;
+  --color-positive: #25BE08;
+  --color-backgroundPrimary: #FFFFFF;
+  --color-backgroundSecondary: #F3F3F3;
+  --color-backgroundTertiary: #E8E8E8;
+  --color-backgroundInversePrimary: #000000;
+  --color-backgroundInverseSecondary: #2c2c2c;
+  --color-BG-tertiary: #282828;
+  --color-navyblue: #102E50;
+
+  --font-primary: 'Outfit', sans-serif;
+  --font-secondary: 'Poppins', sans-serif;
+
+  --color-contentPrimary: #000000;
+  --color-contentSecondary: #4B4B4B;
+  --color-contentTertiary: #868788;
+  --color-borderAccent: #276EF1;
+
+  --color-contentInversePrimary: #FFFFFF;
+  --color--contentSecondary: #DDDDDD;
+
+  --color-borderOpaque: #E8E8E8;
+  --color-borderTransparent: #E8E8E814;
+  --color-borderSelected: #000000;
+  --color-borderbg: #2C2C2C;
+
+  --color-borderInverseOpaque: #4B4B4B;
+  --color-borderInverseTransparent: #E8E8E833;
+  --color-borderInverseSelected: #ffffff;
+  --color-first: #EC407A;
+  --color-second: #CA2C92;
+  --color-pink: #B70849;
+  --color-purple: #662DFF;
+
+  --color-sky: #0369a1;
+
+  --text-small: 15px;
+  --text-large: 62px;
+  --text-md: 28px;
+}
+.custom-scroll::-webkit-scrollbar {
+  width: 14px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px 10px #888;
+  border: solid 4px transparent;
+  border-radius: 9999px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 10px 10px #fff;
+  border: solid 4px transparent;
+  border-radius: 9999px;
+}
