@@ -1,3 +1,4 @@
+// cSpell:ignore Reusablecard postmancard borderbg
 import React, { useState, useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import ReusableCard from "./Reusablecard";
@@ -65,7 +66,7 @@ const mediaLabels = {
 const postmanLabels = {
   postman_collection: {
     title: "Add Postman collection",
-    description: "Add your postman collection URL to cotinue",
+    description: "Add your postman collection URL to continue",
     placeholder: "example.com",
   },
   campaign_pdf: {
@@ -174,7 +175,7 @@ const UploadCard: React.FC<UploadCardProps> = ({
   }, [status]);
 
   const baseClass =
-    "border-2 flex flex-col justify-center items-center text-sm text-primaryB transition-all duration-300";
+    "border-2 flex flex-col justify-center items-center text-sm text-primaryB transition-all duration-300 overflow-hidden";
 
   const renderIdleContent = () => {
     switch (variant) {
@@ -237,8 +238,8 @@ const UploadCard: React.FC<UploadCardProps> = ({
                   onClick={handleBrowse}
                 />
 
-                <div className="flex items-center w-full px-4 py-5 border-dashed rounded-lg border-1">
-                  <span className="text-contentTertiary text-[16px] font-poppins">
+                <div className="flex items-start w-full px-4 py-3 border-dashed rounded-lg border-1 overflow-auto max-h-20">
+                  <span className="text-contentTertiary text-[16px] font-poppins break-all whitespace-pre-wrap leading-5">
                     {link}
                   </span>
                 </div>
