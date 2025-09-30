@@ -104,10 +104,9 @@ export const createCampaign = async (
   if (data.assistance) formData.append("assistance", data.assistance);
   if (data.campaignImage) formData.append("campaignImage", data.campaignImage);
 
+  // Let the browser set the correct multipart Content-Type with boundary
   return useApi.post<CreateCampaignResponse>("/campaigns", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+    headers: {},
   });
 };
 
