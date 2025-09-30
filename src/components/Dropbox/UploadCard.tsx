@@ -355,6 +355,21 @@ const UploadCard: React.FC<UploadCardProps> = ({
         ref={inputRef}
         onChange={handleFileChange}
         type="file"
+        accept={
+          variant === UploadCardVariant.Media
+            ? (
+                mediaType === "callingSheet"
+                  ? "text/csv"      // Calling sheet = CSV
+                  : mediaType === "transcript"
+                  ? "audio/*"      // Campaign transcript = CSV (file)
+                  : mediaType === "assistance"
+                  ? "text/csv"       // Voice assistant = audio
+                  : undefined
+              )
+            : variant === UploadCardVariant.Postman
+            ? (postmancardType === "campaign_pdf" ? "application/pdf" : undefined)
+            : undefined
+        }
         className="hidden"
       />
 

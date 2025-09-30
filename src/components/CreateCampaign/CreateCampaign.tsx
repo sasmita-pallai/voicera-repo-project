@@ -62,6 +62,14 @@ function CreateCampaign() {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async () => {
+    const isValidUrl = (value: string): boolean => {
+      try {
+        new URL(value);
+        return true;
+      } catch {
+        return false;
+      }
+    };
     if (
       !name.trim() ||
       !hashtags.trim() ||
@@ -81,6 +89,16 @@ function CreateCampaign() {
       !campaignImage
     ) {
       toast("❌ Please fill in all required fields before submitting.");
+      return;
+    }
+
+    // Enforce links for Postman collection (required) and campaign PDF (optional but must be a link if present)
+    if (!isValidUrl(postmanCollection.trim())) {
+      toast("❌ Postman Collection must be a valid URL (as in Swagger).");
+      return;
+    }
+    if (campaignPdf && campaignPdf.trim().length > 0 && !isValidUrl(campaignPdf.trim())) {
+      toast("❌ Campaign PDF must be a valid URL (Google Drive or HTTPS link).");
       return;
     }
 
