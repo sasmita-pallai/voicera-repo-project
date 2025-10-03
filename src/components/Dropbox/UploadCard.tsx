@@ -33,6 +33,7 @@ interface UploadCardProps {
   variant?: UploadCardVariant;
   className?: string;
   file?: File | null;
+  link?: string;
   size?: UploadCardSize;
   buttonLabel?: string;
   onFileSelect?: (file: File) => void;
@@ -132,6 +133,18 @@ const UploadCard: React.FC<UploadCardProps> = ({
   const handleDone = () => {
     setStatus(UploadStatus.Idle);
     setProgress(0);
+    // Keep the file so it shows in idle state with file name and X button
+  };
+
+  const handleDeleteFile = () => {
+    setStatus(UploadStatus.Idle);
+    setProgress(0);
+    setLink("");
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+    onFileSelect?.(null as unknown as File); // Clear the file
+    onLinkSubmit?.(""); // Clear the link
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,6 +172,10 @@ const UploadCard: React.FC<UploadCardProps> = ({
           setStatus(UploadStatus.Failed);
         } else {
           setStatus(UploadStatus.Complete);
+          // Auto-transition to idle state to show clean Figma UI
+          setTimeout(() => {
+            setStatus(UploadStatus.Idle);
+          }, 1000);
         }
       }
     }, 300);
@@ -181,10 +198,37 @@ const UploadCard: React.FC<UploadCardProps> = ({
     switch (variant) {
       case UploadCardVariant.Media:
         return (
-          <>
-            {file ? (
-              <p className="mb-2 text-sm text-white">{file.name}</p>
-            ) : (
+            <>
+              {file ? (
+                <div className="w-full">
+                  <div className="flex items-start justify-between w-full">
+                    <div className="flex-1 mr-2 flex flex-col items-center">
+                      <img
+                        src="/images/UploadFile.svg"
+                        alt="upload"
+                        className="w-6 h-6 mb-2"
+                      />
+                      <div className="h-[4px] bg-accent w-full mb-1" />
+                      <p className="text-sm text-white truncate text-center w-full">{file.name}</p>
+                    </div>
+                    <button
+                      onClick={handleDeleteFile}
+                      className="w-6 h-6 bg-gray-800 rounded flex items-center justify-center hover:bg-gray-700 transition-colors flex-shrink-0"
+                      title="Remove file"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M18 6L6 18M6 6l12 12"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ) : (
               <>
                 <img
                   src="/images/UploadFile.svg"
@@ -228,22 +272,37 @@ const UploadCard: React.FC<UploadCardProps> = ({
 
       case UploadCardVariant.Postman:
         return (
-          <>
-            {link && link.length > 0 ? (
-              <div className="flex flex-col w-full gap-2">
-                <img
-                  src="/images/UploadFile.svg"
-                  alt="upload"
-                  className="block w-6 h-6 mx-auto"
-                  onClick={handleBrowse}
-                />
+            <>
+              {link && link.length > 0 ? (
+                <div className="flex flex-col w-full gap-2">
+                  <img
+                    src="/images/UploadFile.svg"
+                    alt="upload"
+                    className="block w-6 h-6 mx-auto"
+                    onClick={handleBrowse}
+                  />
 
-                <div className="flex items-start w-full px-4 py-3 border-dashed rounded-lg border-1 overflow-auto max-h-20">
-                  <span className="text-contentTertiary text-[16px] font-poppins break-all whitespace-pre-wrap leading-5">
-                    {link}
-                  </span>
+                  <div className="flex items-start w-full px-4 py-3 border-dashed rounded-lg border-1 overflow-auto max-h-20">
+                    <span className="text-contentTertiary text-[16px] font-poppins break-all whitespace-pre-wrap leading-5 flex-1">
+                      {link}
+                    </span>
+                    <button
+                      onClick={handleDeleteFile}
+                      className="w-6 h-6 bg-gray-800 rounded flex items-center justify-center hover:bg-gray-700 transition-colors ml-2 flex-shrink-0"
+                      title="Remove link"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M18 6L6 18M6 6l12 12"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
             ) : (
               <>
                 <img
@@ -417,22 +476,24 @@ const UploadCard: React.FC<UploadCardProps> = ({
       )}
 
       {status === UploadStatus.Complete && (
-        <>
-          <div className="max-w-[292px] w-full flex flex-col gap-[14px] justify-center items-center">
-            <div className="h-[4px] bg-accent w-full" />
-            <span className="text-primaryB font-normal text-[16px]">
-              Upload complete
-            </span>
+        <div className="w-full">
+          <div className="flex items-start justify-between w-full">
+            <div className="flex-1 mr-2 flex flex-col items-center">
+              <img src="/images/UploadFile.svg" alt="upload" className="w-6 h-6 mb-2" />
+              <div className="h-[4px] bg-accent w-full mb-1" />
+              <p className="text-sm text-white truncate text-center w-full">{file ? file.name : link}</p>
+            </div>
+            <button
+              onClick={handleDeleteFile}
+              className="w-6 h-6 bg-gray-800 rounded flex items-center justify-center hover:bg-gray-700 transition-colors flex-shrink-0"
+              title="Remove"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
           </div>
-          <button
-            onClick={handleDone}
-            className="mt-4 bg-backgroundTertiary rounded-3xl h-[36px] w-[70px] flex items-center justify-center"
-          >
-            <span className="text-[14px] font-medium p-3 text-contentPrimary">
-              OK
-            </span>
-          </button>
-        </>
+        </div>
       )}
     </div>
   );

@@ -86,7 +86,15 @@ export const createCampaign = async (
   formData.append("description", data.description);
   formData.append("ai_assistant_name", data.ai_assistant_name);
   formData.append("assign_to", data.assign_to);
-  formData.append("timeSensitivity", JSON.stringify(data.timeSensitivity));
+  
+  // Flatten timeSensitivity fields as expected by server
+  formData.append("week_days", data.timeSensitivity.week_days);
+  formData.append("call_date", data.timeSensitivity.call_date);
+  formData.append("start_time", data.timeSensitivity.start_time);
+  formData.append("end_time", data.timeSensitivity.end_time);
+  formData.append("end_date", data.timeSensitivity.end_date);
+  formData.append("call_mode", data.timeSensitivity.call_mode);
+  
   formData.append("postman_collection", data.postman_collection);
   formData.append("campaign_pdf", data.campaign_pdf);
 
@@ -103,6 +111,14 @@ export const createCampaign = async (
   if (data.transcript) formData.append("transcript", data.transcript);
   if (data.assistance) formData.append("assistance", data.assistance);
   if (data.campaignImage) formData.append("campaignImage", data.campaignImage);
+
+  // Debug: Log FormData contents in development (Vite uses import.meta.env)
+  if (import.meta.env.DEV) {
+    console.log('FormData contents:');
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+  }
 
   // Let the browser set the correct multipart Content-Type with boundary
   return useApi.post<CreateCampaignResponse>("/campaigns", formData, {

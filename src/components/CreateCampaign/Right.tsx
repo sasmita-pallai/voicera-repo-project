@@ -23,9 +23,9 @@ const Right = ({
   setAssignTo,
   timeSensitivity,
   setTimeSensitivity,
-  callingRef,
+  postmanCollection,
   setPostmanCollection,
-  
+  callingRef,
 }: RightProps) => {
   return (
     <div className="flex flex-col w-full gap-2 p-2">
@@ -42,8 +42,14 @@ const Right = ({
       
       <Container title="Postman Collection">
        
-        <UploadCard variant={UploadCardVariant.Postman} postmancardType='postman_collection' buttonLabel="Upload Media"  className="h-30 w-full rounded-[4px]"
-          onLinkSubmit={(url: string) => setPostmanCollection(url)} />
+        <UploadCard 
+          variant={UploadCardVariant.Postman} 
+          postmancardType='postman_collection' 
+          buttonLabel="Upload Media"  
+          className="h-30 w-full rounded-[4px]"
+          onLinkSubmit={(url: string) => setPostmanCollection(url)}
+          link={postmanCollection}
+        />
 
       </Container>
       

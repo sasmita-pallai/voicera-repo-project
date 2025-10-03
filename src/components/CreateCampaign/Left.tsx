@@ -36,10 +36,13 @@ function Left({
   setDescription,
   aiAssistantName,
   setAIAssistantName,
+  transcript,
   setTranscript,
+  assistance,
   setAssistance,
   campaignImage,
   setCampaignImage,
+  campaignPdf,
   setCampaignPdf,
   campaignImageRef,
   transcriptRef,
@@ -101,6 +104,7 @@ function Left({
               mediaType="transcript"
               className="h-30 w-full rounded-[4px]"
               onFileSelect={setTranscript}
+              file={transcript}
               inputRef={transcriptRef}
             />
           </Container>
@@ -115,6 +119,7 @@ function Left({
               className="h-30 w-full rounded-[4px]"
               inputRef={campaignImageRef}
               onLinkSubmit={(url: string) => setCampaignPdf(url)}
+              link={campaignPdf}
             />
           </Container>
         </div>
@@ -135,6 +140,7 @@ function Left({
             mediaType="assistance"
             className="h-30 w-full rounded-[4px]"
             onFileSelect={setAssistance}
+            file={assistance}
             inputRef={assistanceRef}
           />
         </div>
