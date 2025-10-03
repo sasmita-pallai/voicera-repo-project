@@ -10,6 +10,7 @@ interface Iprops {
 
 function CampaignPhoto({ title = "Title", setCampaignImage }: Iprops) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const MAX_IMAGE_KB = 300; // limit to small images (~300 KB)
 
   const handleClick = () => {
     fileInputRef.current?.click();
@@ -29,6 +30,13 @@ function CampaignPhoto({ title = "Title", setCampaignImage }: Iprops) {
 
     if (!validImageTypes.includes(file.type)) {
       toast.error("Only image files are allowed!");
+      return;
+    }
+
+    // Enforce small file size in KB
+    const sizeInKB = Math.round(file.size / 1024);
+    if (sizeInKB > MAX_IMAGE_KB) {
+      toast.error(`Image too large (${sizeInKB} KB). Max allowed is ${MAX_IMAGE_KB} KB.`);
       return;
     }
 
